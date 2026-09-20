@@ -235,7 +235,7 @@ st.markdown(
 )
 
 with st.sidebar:
-    st.header("Physical configuration")
+    st.header("1 · Setup — Physical configuration")
     load_config(st.file_uploader("Import configuration", type=["json"]))
     st.number_input("Mass m (kg)", min_value=0.001, max_value=1000.0, key="mass")
     st.number_input("Natural angular frequency ω₀ (rad/s)", min_value=0.001, max_value=1000.0, key="omega0")
@@ -255,8 +255,10 @@ with st.sidebar:
     st.caption(f"Natural period T₀ = {2*np.pi/st.session_state.omega0:.6g} s")
     st.caption(f"Platform version: {APP_VERSION}")
 
+st.caption("Workspace order: Setup → Run → Results → Analysis → Verification / Export.")
+
 overview_tab, methods_tab, convergence_tab, damping_tab, resonance_tab, nonlinear_tab, external_tab, validation_tab = st.tabs(
-    ["Overview","Method comparison","Convergence","Damping","Resonance & beats","Nonlinear pendulum","External data","Validation"]
+    ["1 · Overview","2 · Run — Method comparison","3 · Verification — Convergence","4 · Analysis — Damping","5 · Analysis — Resonance & beats","6 · Analysis — Nonlinear pendulum","7 · Data — External comparison","8 · Verification"]
 )
 
 with overview_tab:
@@ -362,7 +364,7 @@ with damping_tab:
 
 with resonance_tab:
     st.subheader("Driven resonance scan and beat phenomenon")
-    resonance_panel,beat_panel=st.tabs(["Resonance scan","Single beat analysis"])
+    resonance_panel,beat_panel=st.tabs(["Run — Resonance scan","Analysis — Single beat"])
     with resonance_panel:
         c1,c2,c3=st.columns(3)
         c1.number_input("Resonance damping γ",min_value=.001,max_value=100.0,key="resonance_gamma")
