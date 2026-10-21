@@ -236,6 +236,23 @@ st.markdown(
 
 with st.sidebar:
     st.header("1 · Setup — Physical configuration")
+    with st.expander("Quick setup handoff · no file transfer", expanded=False):
+        st.caption("Pin this experiment setup, explore other oscillator scenarios, then restore all input fields in-app instead of downloading and reloading a configuration file.")
+        if st.button("Pin current setup", key="pin_oscillation_setup"):
+            st.session_state["_pinned_oscillation_setup"] = {
+                key: st.session_state[key] for key in defaults()
+            }
+            st.success("Current experiment setup pinned in this session.")
+        pinned = st.session_state.get("_pinned_oscillation_setup")
+        if isinstance(pinned, dict):
+            st.caption(f"Pinned {len(pinned)} input fields. Old results will be invalidated on restore.")
+            if st.button("Restore pinned setup", key="restore_oscillation_setup"):
+                for key in defaults():
+                    if key in pinned:
+                        st.session_state[key] = pinned[key]
+                for key in RESULT_KEYS:
+                    st.session_state[key] = None
+                st.rerun()
     load_config(st.file_uploader("Import configuration", type=["json"]))
     st.number_input("Mass m (kg)", min_value=0.001, max_value=1000.0, key="mass")
     st.number_input("Natural angular frequency ω₀ (rad/s)", min_value=0.001, max_value=1000.0, key="omega0")
